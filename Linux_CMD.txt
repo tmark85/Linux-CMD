@@ -1,0 +1,196 @@
+﻿pour chercher l'aide sur une commande : 
+	- man ls 
+	- man find
+
+commande qui indique ou est ce que je me trouve:
+	- pwd
+
+
+lister le contenu d'un dossier courant:	
+	ls -l
+	ls -al
+
+	ls * (liste le contenu du repertoire courant et uniquement celui de ses repertoire de premier niveau)
+	ls \w?? (liste les fichiers et le contenu des sous repertoire de premier niveau dont le nom contient 3 lettres et commence par w)
+	ls [ws]?? (liste les fichiers et le contenu des sous repertoire de premier niveau dont le nom contient 3 lettres et commence par w ou s)
+	ls -l > /home/mbark/test.txt (le résultat de la commande sera envoyé dans un fichier qui sera toujours créé "test.txt")
+	ls -l >> /home/mbark/test.txt ( si le test.txt existe son contenu sera concaténé avec le resultat de la commande sinon il sera crée)
+	ls | sort -r (ordonner le resultat obtenu par la commande ls et l'inverser alphabetiquement)
+
+modification la date de mofification d'un fichier s'il existe, sinon il le crée  
+
+	touch monfichier
+
+renommer un fichier, le deplacer, le déplacer et le renommer :
+
+	mv myfile myfile2
+
+	mv myfile /home/mbark/
+
+	mv myfile /home/mbark/myfile2
+
+supprimer un dossier vide, supprimer un dossier contenant des fichiers :
+
+	rmdir dossiervide
+
+	rm -r dossierplein
+
+	rm -fr dossierplein (force la supression sans demander l'autorisation)
+
+copier un fichier dans un dossier, copier et renommer, copier un dossier et ses sous repertoires et fichierss:
+
+	cp myfile dossier/
+
+	cp myfile dossier/myfile2
+
+	cp -r dossier/ dossier2/
+
+	
+Editer un fichier:
+
+	vim myfile
+	
+
+visualiser un fichier:
+
+	cat myfile (pb ca defile très vite)
+	
+	cat -n myfile (affiche la numerotation des lignes)
+	
+	cat -b myfile (affiche la numerotation sur les non vide)
+	
+	cat -s myfile (reduit les lignes vides successive en une seule)
+	
+	less myfile (affiche uniquement la première page des resultat, et permet de se déplacer page par page avec les touches f "forward", b "backword")
+
+Rechercher dans un fichier:
+
+	less myfile ( puis "/motrecherché" et cliquer sur la touche n pour continuer la recherche)
+	vim myfile ( puis "/motrecherché" et cliquer sur la touche n pour continuer la recherche)
+
+
+Pour afficher la fin d'un fichier (par defaut 10 lignes) :
+
+	tail /var/log/syslog
+	
+	tail -50 /var/log/syslog (pour afficher les 50 dernieres lignes)
+	
+	tail -50 -f /var/log/syslog ( pour lire en permanence le fichier de journal et vision en temps réel)
+
+Afficher les premières lignes de mon journal :
+
+	head -20 /var/log/syslog
+	
+Afficher les chaines contenues dans un fichier binaire :
+
+	strings ls ( affiche le contenu texte de la commande ls)
+	
+Obtenir les statistiques du système de fichier:
+
+	stat /var/log/syslog
+
+Obtenir le nombre de lignes et mot et octets dans un fichier :
+
+	wc /var/log/syslog
+
+Obtenir le nombre d'octets ou la taille dans le disque dans un repertoire:
+
+	du -h (affiche les tailles des sous dossier et du dossier courant)
+	
+	du -hs (affiche la taille du dossier courant)
+	
+Obtenir la taille de tout les systèmes de fichier / périphériques (exemple c: et d:):
+
+	df -h
+	
+Changement de permission d'un fichier ou dossier et son contenu:
+
+	chmod a+rw myfile ( pout tout le monde : user, group, other)
+	
+	chmod u+rwx myfile ( pour le owner)
+	chmod g-rwx myfile ( pour group)
+	chmod o+rx myfile ( pour other)
+	chmod a+rw dossier/ (pour uniquement ce dossier)
+	chmod -R o-rw dossier/ (pour le dossier et son contenu)
+	
+Changer le propriétaire d'un fichier ou dossier:
+
+	chown root.root syslog ( owner=root et group=root)
+	
+
+devenir super user:
+
+	sudo su
+	
+supprimer le cache du mot de passe:
+
+	sudo -k
+	
+Executer une tache en tant qu'admin avec sudo:
+
+	sudo vim /etc/sudoers (à ce moment ça va demander password de l'utilisateur)
+
+Chercher des fichiers:
+
+	find / -name  *.txt (chercher les fichier d'extension .txt dans la racine)
+	find /home/mbark -name  *.txt ( chercher les fichiers .txt)
+	find /home 	-path /home/*/plouf.txt  (chercher un fichier à travers des chemins)
+	find /home/mbark -iname [rj]*.txt ( chercher avec des expressions régulières des fichiers txt qui commence par r ou j)
+	find /home/mbark -name ssh -type f (chercher uniquement des fichiers portant le nom ssh)
+	find /home/mbark -name ssh -type d (chercher uniquement des dossiers portant le nom ssh)	
+	find . -amin 1 (trouver les fichiers auquels on a accédé dans moins 1 minute)
+	find . -atime 1 (trouver les fichiers auquels on a accédé dans moins 1 jour)
+	find . -mmin 1 (trouver les fichiers dont le contenu a été modifié dans moins 1 min)
+	find . -cmin 1 (trouver les fichiers dont le statut a été modifié par exemple les permission dans moins 1 min)
+	find . -anewer myfile ( trouver les fichiers qui ont été accédé après accès à myfile)
+	find . -cnewer myfile ( trouver les fichiers dont le statut a été modifié après avoir modifié celui de myfile)
+	find . -newer myfile ( trouver les fichiers qui ont été modifé après modification de myfile)	
+	find .size +12k (chercher des fichiers qui font plus de 12k)
+	find .size 12k (chercher les fichiers qui font 12k)
+	find .size -12k (chercher des fichiers qui font moins de 12k)
+	find . -empty -name source* ( afficher les fichiers et dossiers vides dont le nom commence par source)
+	find . -empty -name source*  -type f  ( afficher uniquement les fichiers vides dont le nom commence par source)
+	
+Chercher à l'interieur des fichiers :
+
+	grep "^#" myfile (chercher dans le fichier les linges qui commencent par un #)
+	grep "^#$" myfile (chercher les lignes qui ne contient que le # dans myfile)
+	grep "print" myfile (chercher toutes les lignes qui contient print)
+	grep -i "Print" myfile (chercher toutes les lignes qui contient print avec case insensitive dans myfile)	
+	grep -iv "Print" myfile (chercher toutes les lignes qui ne contiennent pas print avec case insensitive dans myfile)	
+	grep -ivc "Print" myfile (trouver le nombre des lignes qui ne contiennent pas print avec case insensitive dans myfile)		
+	grep -ivn "Print" myfile (trouver les lignes qui ne contiennent pas print avec case insensitive avec le numero de la ligne dans myfile)	
+	grep -i "Print" * (chercher toutes les lignes qui contient print avec case insensitive dans tous les fichier du repertoire de travail)	
+	grep -iw "Print" * 	(chercher le mot print complet dans tous les fichiers du répertoire de travail)
+	grep -iw "Print" * 	(chercher le mot print complet dans tous les fichiers du répertoire de travail)	
+	grep -iwl "Print" * (chercher le nom des fichiers qui comporte le mot print complet dans tous les fichiers du répertoire de travail)
+	grep -iwlr "Print" * (chercher le nom des fichiers qui comporte le mot print complet dans tous les fichiers du répertoire de travail et ses sous répertoires)
+	
+	
+exemple des commandes pip :
+
+	find . -type f -exec grep -il 'term' {} \; (cherche dans les fichiers du repertoire courant ceux qui contient 'term') ==== ici sans pip
+	find . -type f | xargs grep -il 'term' === ici le même resultat avec la pip
+	find . -type f ! -name 'R*' | xargs grep -il 'term' (cherche dans les fichiers du repertoire courant ceux qui contient 'term' et dont le nom ne commance pas par R)
+	
+	find . -type f -name 'R*' | xargs grep -il 'term' | xargs rm (cherche dans les fichiers du repertoire courant ceux qui contient 'term' et dont le nom commence par R et les supprimer)
+	
+
+	
+commande tar (compresser et décompresser et visualiser le zip):
+
+	tar -czvf myarchive.tar.gz .   ( ici c'est pour compresser le répertoire courant)
+	
+	tar -czvf myarchive.tar.gz .  ( ici pour visualiser le contenu d'un archive)
+	
+	tar -xzvf myarchive.tar.gz /home/mbark  OU  tar -xzvf myarchive.tar.gz (dans le premier cas extraction dans le répertoire donné sinon dans la deuxième c'est dans lre répertoire courant)
+	
+	
+
+ 
+
+
+
+
+
+
